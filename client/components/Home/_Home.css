@@ -1,6 +1,11 @@
-.Home-div {
+.Home_div {
   max-width: 40rem;
   margin: 0 auto;
+}
+
+.Home_page-title {
+  font-size: 10em;
+  font-family: "Cabin", serif;
 }
 
 /*.SearchInput-div {

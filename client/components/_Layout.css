@@ -1,0 +1,9 @@
+body {
+  background-color: #2A042D;
+  color: #DDD;
+}
+
+.Layout_page-title {
+  margin-top: 2rem;
+  font-size: 4em;
+}
