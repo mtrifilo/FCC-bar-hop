@@ -13,6 +13,8 @@
     "prettier": "prettier-standard 'server/**/*.js' 'client/**/*.js'",
     "build": "webpack",
     "watch": "webpack --watch",
+    "flow:start": "flow status",
+    "flow:stop": "flow stop",
     "build:prod": "yarn run babel:prod && webpack --config webpack.prod.js",
     "watch:prod": "webpack --config webpack.prod.js --watch",
     "babel:prod": "yarn run babel:clear && mkdir public/production && yarn run babel:components && yarn run babel:redux && yarn run babel:auth && yarn run babel:validation",
