@@ -6,7 +6,12 @@ class SearchInput extends Component {
   render () {
     return (
       <div className='SearchInput-div'>
-        <Input />
+        <Input
+          label="Search"
+          type="text" 
+          value=""
+          name="Search"
+          />
       </div>
     )
   }
