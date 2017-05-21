@@ -9,8 +9,8 @@ const UPDATE_SEARCH_INPUT_VALUE = 'UPDATE_SEARCH_INPUT_VALUE'
 
 // ******* Action Creators & Reducers *******
 
-export function onInputChange (value) {
-  return { type: UPDATE_SEARCH_INPUT_VALUE, value }
+export function onInputChange (event) {
+  return { type: UPDATE_SEARCH_INPUT_VALUE, value: event.target.value }
 }
 const onInputChangeReducer = (state, action) => {
   return Object.assign({}, state, { searchInputValue: action.value })
