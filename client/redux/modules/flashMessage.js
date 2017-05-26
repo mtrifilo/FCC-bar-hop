@@ -1,3 +1,4 @@
+// @flow
 import map from 'lodash/map'
 import clone from 'lodash/clone'
 
@@ -12,19 +13,19 @@ const DELETE_FLASH_MESSAGE = 'DELETE_FLASH_MESSAGE'
 
 // ******* Action Creators & Reducers *******
 
-export function displayFlashMessage ({ message, level }) {
+export function displayFlashMessage (flashMessage: {
+  message: string,
+  level: string
+}): Function {
   return dispatch => {
-    dispatch(addFlashMessage(message, level))
-    setTimeout(
-      () => {
-        dispatch(deleteFlashMessage())
-      },
-      2000
-    )
+    dispatch(addFlashMessage(flashMessage.message, flashMessage.level))
+    setTimeout(() => {
+      dispatch(deleteFlashMessage())
+    }, 2000)
   }
 }
 
-function addFlashMessage (message, level) {
+function addFlashMessage (message: string, level: string) {
   return { type: ADD_FLASH_MESSAGE, message, level }
 }
 const addFlashMessageReducer = (state, action) => {
@@ -53,7 +54,12 @@ const deleteFlashMessageReducer = (state, action) => {
 
 // ******* Root Reducer Slice *******
 
-export default function flashMessage (state = DEFAULT_STATE, action) {
+export default function flashMessage (
+  state: {
+    flashMessages: Array<{ message: string, level: string }>
+  } = DEFAULT_STATE,
+  action: { type: string, message?: string, level?: string }
+) {
   switch (action.type) {
     case ADD_FLASH_MESSAGE:
       return addFlashMessageReducer(state, action)
