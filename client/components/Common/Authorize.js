@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import { logoutUser } from '../../redux/modules/user'
-import { bool, string, object, number, func } from 'prop-types'
 
 class Authorize extends Component {
   constructor (props) {
@@ -13,6 +12,14 @@ class Authorize extends Component {
       mounted: false
     }
   }
+  props: {
+    isAuthenticated: boolean,
+    username: string,
+    children: Array<Function>,
+    tokenExp: number,
+    dispatchLogout: Function
+  };
+
   componentWillReceiveProps (nextProps) {
     if (!nextProps.isAuthenticated) {
       this.setState({ redirectToLogin: true })
@@ -49,14 +56,6 @@ class Authorize extends Component {
       </div>
     )
   }
-}
-
-Authorize.propTypes = {
-  isAuthenticated: bool,
-  username: string,
-  children: object,
-  tokenExp: number,
-  dispatchLogout: func
 }
 
 const mapStateToProps = state => {

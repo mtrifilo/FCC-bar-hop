@@ -5,6 +5,10 @@ import { onInputChange } from '../../redux/modules/location'
 import Input from '../Common/Input'
 
 class SearchInput extends Component {
+  props: {
+    value: string,
+    dispatchOnInputChange: Function
+  };
   render () {
     return (
       <div className='SearchInput-div'>
