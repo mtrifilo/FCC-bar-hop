@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
+// @flow
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import GitHubAccountSettings from './GitHubAccountSettings'
@@ -20,7 +21,13 @@ import {
 } from '../../../server/validation/accountSettingsValidation'
 import { string, func, object } from 'prop-types'
 
-class AccountSettings extends Component {
+/** TODO
+ * https://github.com/facebook/flow/issues/1594
+ * adriantoine's answer seems to solve the state errors
+ * reported from Flow. New types are needed.
+ */
+class AccountSettings extends Component<void, Props, State> {
+  state: State;
   constructor (props) {
     super(props)
     this.state = {
@@ -42,6 +49,18 @@ class AccountSettings extends Component {
       }
     }
   }
+  props: {
+    gitHubToken: string,
+    username: string,
+    email: string,
+    newUsername: object,
+    newEmail: object,
+    dispatchGetCurrentUser: func,
+    dispatchChangeGitHubUsername: func,
+    dispatchDeleteUserAccount: func,
+    dispatchCheckUsernameUniqueness: func,
+    dispatchCheckEmailUniqueness: func
+  };
 
   onChangeHandler = evt => {
     this.setState({ [evt.target.name]: evt.target.value })
@@ -50,13 +69,19 @@ class AccountSettings extends Component {
   onBlurHandler = evt => {
     if (evt.target.name === 'newUsername') {
       this.setValidationError(validateNewUsername(this.state.newUsername))
-      if (this.state.newUsername !== this.props.username && this.state.newUsername !== '') {
+      if (
+        this.state.newUsername !== this.props.username &&
+        this.state.newUsername !== ''
+      ) {
         this.props.dispatchCheckUsernameUniqueness(this.state.newUsername)
       }
     }
     if (evt.target.name === 'newEmail') {
       this.setValidationError(validateNewEmail(this.state.newEmail))
-      if (this.state.newEmail !== this.props.email && this.state.newEmail !== '') {
+      if (
+        this.state.newEmail !== this.props.email &&
+        this.state.newEmail !== ''
+      ) {
         this.props.dispatchCheckEmailUniqueness(this.state.newEmail)
       }
     }
@@ -106,7 +131,9 @@ class AccountSettings extends Component {
       identifiersValid = false
     }
     if (
-      currentPassword !== '' || newPassword !== '' || confirmNewPassword !== ''
+      currentPassword !== '' ||
+      newPassword !== '' ||
+      confirmNewPassword !== ''
     ) {
       passwordValid = false
     }
