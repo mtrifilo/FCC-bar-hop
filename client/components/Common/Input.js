@@ -4,6 +4,7 @@ import { string, func } from 'prop-types'
 
 const Input = ({
   label,
+  placeholder,
   type,
   value,
   name,
@@ -18,6 +19,7 @@ const Input = ({
       <label>{label}</label>
       <input
         type={type}
+        placeholder={placeholder}
         value={value}
         name={name}
         onChange={onChange}
@@ -34,6 +36,7 @@ const Input = ({
 
 Input.propTypes = {
   label: string,
+  placeholder: string,
   type: string,
   value: string,
   name: string,

@@ -11,15 +11,15 @@ class SearchInput extends Component {
   };
   render () {
     return (
-      <div className='SearchInput-div'>
+      <form className='SearchInput-form'>
         <Input
-          label='Search'
+          placeholder='Address or Zipcode'
           type='text'
           value={this.props.value}
           name='Search'
           onChange={this.props.dispatchOnInputChange}
         />
-      </div>
+      </form>
     )
   }
 }
