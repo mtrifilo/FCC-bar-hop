@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
 // @flow
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -19,47 +18,38 @@ import {
   validateNewPassword,
   validateConfirmNewPassword
 } from '../../../server/validation/accountSettingsValidation'
-import { string, func, object } from 'prop-types'
 
-/** TODO
- * https://github.com/facebook/flow/issues/1594
- * adriantoine's answer seems to solve the state errors
- * reported from Flow. New types are needed.
- */
-class AccountSettings extends Component<void, Props, State> {
-  state: State;
-  constructor (props) {
-    super(props)
-    this.state = {
-      newUsername: '',
-      newEmail: '',
-      currentPassword: '',
-      newPassword: '',
-      confirmNewPassword: '',
-      validationErrors: {
-        newUsername: '',
-        newEmail: '',
-        currentPassword: '',
-        newPassword: '',
-        confirmNewPassword: ''
-      },
-      isValid: {
-        identifiers: false,
-        passoword: false
-      }
-    }
-  }
+class AccountSettings extends Component {
   props: {
     gitHubToken: string,
     username: string,
     email: string,
-    newUsername: object,
-    newEmail: object,
-    dispatchGetCurrentUser: func,
-    dispatchChangeGitHubUsername: func,
-    dispatchDeleteUserAccount: func,
-    dispatchCheckUsernameUniqueness: func,
-    dispatchCheckEmailUniqueness: func
+    newUsername: Object,
+    newEmail: Object,
+    dispatchGetCurrentUser: Function,
+    dispatchChangeGitHubUsername: Function,
+    dispatchDeleteUserAccount: Function,
+    dispatchCheckUsernameUniqueness: Function,
+    dispatchCheckEmailUniqueness: Function
+  };
+
+  state = {
+    newUsername: '',
+    newEmail: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmNewPassword: '',
+    validationErrors: {
+      newUsername: '',
+      newEmail: '',
+      currentPassword: '',
+      newPassword: '',
+      confirmNewPassword: ''
+    },
+    isValid: {
+      identifiers: false,
+      password: false
+    }
   };
 
   onChangeHandler = evt => {
@@ -211,19 +201,6 @@ class AccountSettings extends Component<void, Props, State> {
       </div>
     )
   }
-}
-
-AccountSettings.propTypes = {
-  gitHubToken: string,
-  username: string,
-  email: string,
-  newUsername: object,
-  newEmail: object,
-  dispatchGetCurrentUser: func,
-  dispatchChangeGitHubUsername: func,
-  dispatchDeleteUserAccount: func,
-  dispatchCheckUsernameUniqueness: func,
-  dispatchCheckEmailUniqueness: func
 }
 
 const mapStateToProps = state => {
