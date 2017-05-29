@@ -11,7 +11,7 @@ class SearchInput extends Component {
   };
   render () {
     return (
-      <form className='SearchInput-form'>
+      <form className='form-inline SearchInput-form'>
         <Input
           placeholder='Address or Zipcode'
           type='text'
@@ -19,6 +19,9 @@ class SearchInput extends Component {
           name='Search'
           onChange={this.props.dispatchOnInputChange}
         />
+        <button type='submit' className='btn btn-primary SearchInput-button'>
+          Find Bars
+        </button>
       </form>
     )
   }

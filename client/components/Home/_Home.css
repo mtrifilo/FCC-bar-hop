@@ -6,8 +6,28 @@
 .Home_page-title {
   font-size: 10em;
   font-family: "Cabin", serif;
+
 }
 
-/*.SearchInput-div {
-  margin: 0 auto;
-}*/
+.SearchInput-form {
+  margin: 2rem auto 1rem;
+}
+
+.SearchInput-form > .form-group > .form-control {
+  width: 32rem;
+}
+
+.SearchInput-button {
+  margin-left: .2rem;
+  color: #ddd;
+  background-color: #2a042d;
+  border-color: #ddd;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+}
+
+.SearchInput-button:hover,
+.SearchInput-button:active {
+  color: #2a042d;
+  background-color: #ddd;
+}
