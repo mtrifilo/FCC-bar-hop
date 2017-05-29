@@ -9,9 +9,18 @@ class SearchInput extends Component {
     value: string,
     dispatchOnInputChange: Function
   };
+
+  handleSubmit = event => {
+    event.preventDefault()
+    console.log('submitted!')
+  };
+
   render () {
     return (
-      <form className='form-inline SearchInput-form'>
+      <form
+        onSubmit={this.handleSubmit}
+        className='form-inline SearchInput-form'
+      >
         <Input
           placeholder='Address or Zipcode'
           type='text'
