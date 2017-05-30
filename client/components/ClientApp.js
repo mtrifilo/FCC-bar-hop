@@ -4,12 +4,21 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from '../redux/store'
 import { setUser, logoutUser } from '../redux/modules/user'
+import { getYelpToken } from '../redux/modules/bars'
 import Routes from './Router/Routes'
 import Layout from './Layout'
 import setTokenToHeaders from '../auth/setTokenToHeaders'
 import jwt from 'jsonwebtoken'
 
 const App = props => {
+  /**
+   * If a JWT is present in localStorage, decode it and check
+   * if it is expired or not.
+   *
+   * If the token is not expired, set the authenticated user.
+   * If the token is expired or if no JWT is present,
+   * logout the user and remove the JWT
+   */
   if (localStorage.token) {
     setTokenToHeaders(localStorage.token)
     const decodedToken = jwt.decode(localStorage.token)
@@ -24,6 +33,7 @@ const App = props => {
   } else {
     store.dispatch(logoutUser())
   }
+  store.dispatch(getYelpToken())
   return (
     <Provider store={store}>
       <BrowserRouter>
