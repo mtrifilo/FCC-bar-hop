@@ -1,6 +1,5 @@
 import axios from 'axios'
-import qs from 'qs'
-import { YELP_CLIENT_ID, YELP_CLIENT_SECRET } from '../../../config.json'
+import { domain } from '../../../config.json'
 
 const DEFAULT_STATE = {
   data: null,
@@ -21,13 +20,7 @@ const SET_YELP_TOKEN = 'SET_YELP_TOKEN'
 export function getYelpToken () {
   return dispatch => {
     axios
-      .post(
-        'https://api.yelp.com/oauth2/token',
-        qs.stringify({
-          client_id: YELP_CLIENT_ID,
-          client_secret: YELP_CLIENT_SECRET
-        })
-      )
+      .get(`${domain}/api/yelp/token`)
       .then(res => {
         if (res.data) {
           console.log('yelp token data:', res.data)
