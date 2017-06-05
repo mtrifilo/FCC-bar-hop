@@ -1,9 +1,14 @@
 const axios = require('axios')
 const qs = require('qs')
 const { YELP_CLIENT_ID, YELP_CLIENT_SECRET } = require('../../../config.json')
-const saveYelpToken = require('./saveYelpToken')
 
-const getYelpToken = function (res) {
+/**
+ * Retrieves an access token for Yelp's API
+ *
+ * @returns { object } token object or error object
+ *
+ */
+const getYelpToken = function () {
   return axios
     .post(
       'https://api.yelp.com/oauth2/token',
@@ -13,14 +18,19 @@ const getYelpToken = function (res) {
       })
     )
     .then(yelpRes => {
-      if (yelpRes.data) {
-        console.log('yelpRes.data', yelpRes.data)
-        res.json(yelpRes.data)
-        saveYelpToken(yelpRes.data)
+      const accessToken = yelpRes.data
+
+      if (accessToken) {
+        console.log('accessToken:', accessToken)
+        return { accessToken, success: true }
+      } else {
+        console.error('getYelpToken failed: no data in the response', yelpRes)
+        return { error: ['no data in the response', yelpRes] }
       }
     })
     .catch(err => {
       console.error('getYelpToken failed:', err)
+      return { error: ['getYelpToken failed', err] }
     })
 }
 
