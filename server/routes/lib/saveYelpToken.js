@@ -15,7 +15,7 @@ const saveYelpToken = function (token) {
     .save()
     .then(token => {
       console.log('saved yelp token:', token)
-      return { success: true }
+      return { success: true, accessToken: token }
     })
     .catch(err => {
       console.error('failed to save yelp token:', err)

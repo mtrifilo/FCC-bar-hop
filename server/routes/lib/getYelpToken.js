@@ -1,37 +1,34 @@
-const axios = require('axios')
-const qs = require('qs')
-const { YELP_CLIENT_ID, YELP_CLIENT_SECRET } = require('../../../config.json')
+const isEmpty = require('lodash/isEmpty')
+const YelpToken = require('../../db/models/Yelp')
+const getNewYelpToken = require('./getNewYelpToken')
+const saveYelpToken = require('./saveYelpToken')
 
-/**
- * Retrieves an access token for Yelp's API
- *
- * @returns { object } token object or error object
- *
- */
 const getYelpToken = function () {
-  return axios
-    .post(
-      'https://api.yelp.com/oauth2/token',
-      qs.stringify({
-        client_id: YELP_CLIENT_ID,
-        client_secret: YELP_CLIENT_SECRET
-      })
-    )
-    .then(yelpRes => {
-      const accessToken = yelpRes.data
+  return YelpToken.find({}).then(doc => {
+    // If no access token is found in the database, get a new one from Yelp
+    if (isEmpty(doc)) {
+      console.log('no token found, fetching one...:', doc)
 
-      if (accessToken) {
-        console.log('accessToken:', accessToken)
-        return { accessToken, success: true }
-      } else {
-        console.error('getYelpToken failed: no data in the response', yelpRes)
-        return { error: ['no data in the response', yelpRes] }
-      }
-    })
-    .catch(err => {
-      console.error('getYelpToken failed:', err)
-      return { error: ['getYelpToken failed', err] }
-    })
+      getNewYelpToken()
+        .then(result => {
+          if (result.success) {
+            return saveYelpToken(result.accessToken)
+          }
+          return { error: result.error }
+        })
+        .then(result => {
+          if (result.success) {
+            return { success: result.success, accessToken: result.accessToken }
+          }
+          return { error: result.error }
+        })
+        .catch(err => {
+          return { error: ['failed to retrieve Yelp access token', err] }
+        })
+    }
+
+    return { success: true, accessToken: doc[0] }
+  })
 }
 
 module.exports = getYelpToken
