@@ -27,7 +27,7 @@ router.get('/bars/:location', (req, res) => {
   const { location } = req.params
   getYelpToken().then(result => {
     if (result.success) {
-      getBars(location, result.accessToken)
+      getBars(location, result.accessToken.access_token)
         .then(result => {
           if (result.data) {
             return res.json({ success: true, barData: result.data })
