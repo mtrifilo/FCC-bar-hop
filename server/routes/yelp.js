@@ -41,9 +41,7 @@ router.get('/bars/:location', (req, res) => {
         })
     } else {
       console.error("couldn't retrieve access token from Yelp. result:", result)
-      return res
-        .status(500)
-        .json({ error: "couldn't retrieve access token from Yelp." })
+      return res.status(500).json({ error: result.error })
     }
   })
 })
