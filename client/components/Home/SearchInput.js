@@ -2,17 +2,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { onInputChange } from '../../redux/modules/location'
+import { getBars } from '../../redux/modules/bars'
 import Input from '../Common/Input'
 
 class SearchInput extends Component {
   props: {
     value: string,
-    dispatchOnInputChange: Function
+    dispatchOnInputChange: Function,
+    dispatchGetBars: Function
   };
 
   handleSubmit = event => {
     event.preventDefault()
-    console.log('submitted!')
+    this.props.dispatchGetBars(this.props.value)
   };
 
   render () {
@@ -46,6 +48,9 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatchOnInputChange (value) {
       return dispatch(onInputChange(value))
+    },
+    dispatchGetBars (location) {
+      return dispatch(getBars(location))
     }
   }
 }

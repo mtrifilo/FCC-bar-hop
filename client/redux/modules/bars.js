@@ -2,7 +2,7 @@ import axios from 'axios'
 import { domain } from '../../../config.json'
 
 const DEFAULT_STATE = {
-  data: null,
+  barData: null,
   yelpToken: null
 }
 
@@ -10,7 +10,7 @@ const DEFAULT_STATE = {
  * Action Types
  */
 
-const GET_BAR_DATA = 'GET_BAR_DATA'
+const SET_BAR_DATA = 'SET_BAR_DATA'
 const SET_YELP_TOKEN = 'SET_YELP_TOKEN'
 
 /**
@@ -24,7 +24,7 @@ export function getYelpToken () {
       .then(res => {
         if (res.data) {
           console.log('yelp token data:', res.data)
-          setYelpToken(res.data)
+          dispatch(setYelpToken(res.data))
         }
       })
       .catch(err => {
@@ -41,7 +41,24 @@ function setYelpTokenReducer (state, action) {
 }
 
 export function getBars (location) {
-  return dispatch => {}
+  return dispatch => {
+    axios.get(`${domain}/api/yelp/bars/${location}`).then(barData => {
+      console.log('redux: barData:', barData)
+      if (barData.data && barData.data.success) {
+        dispatch(setBarData(barData.data.barData))
+      } else {
+        console.error("redux: coudn't get bars", barData)
+        dispatch(setBarData({ error: barData }))
+      }
+    })
+  }
+}
+
+function setBarData (barData) {
+  return { type: SET_BAR_DATA, barData }
+}
+function setBarDataReducer (state, action) {
+  return Object.assign({}, state, { barData: action.barData })
 }
 
 /**
@@ -52,6 +69,8 @@ export default function bars (state = DEFAULT_STATE, action) {
   switch (action.type) {
     case SET_YELP_TOKEN:
       return setYelpTokenReducer(state, action)
+    case SET_BAR_DATA:
+      return setBarDataReducer(state, action)
     default:
       return state
   }
